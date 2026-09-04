@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+- Serialize unit tests so process-wide leak options do not race in CI
+
 ## 1.0.0
 
 - First stable release (install without `--prerelease`)
