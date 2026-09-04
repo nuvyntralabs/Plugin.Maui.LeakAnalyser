@@ -20,7 +20,7 @@ dotnet add package Plugin.Maui.LeakAnalyser --prerelease
 
 Target frameworks: `net10.0`, `net10.0-android`, `net10.0-ios`, `net10.0-maccatalyst`, `net10.0-windows10.0.19041.0` (Windows TFM when packed on Windows).
 
-Version `0.1.0-preview`.
+Version `0.1.1-preview`.
 
 ## Quick start
 

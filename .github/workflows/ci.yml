@@ -115,6 +115,16 @@ jobs:
       run:
         shell: bash
     steps:
+      - name: Checkout package repo
+        uses: actions/checkout@v4
+
+      - name: Fetch hub CI scripts
+        uses: actions/checkout@v4
+        with:
+          repository: nuvyntralabs/MauiEssentials
+          ref: main
+          path: .ci-tools
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
@@ -126,6 +136,26 @@ jobs:
           pattern: nuget-*-macOS
           path: packages
           merge-multiple: true
+
+      - name: Download Windows packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: nuget-*-Windows
+          path: packages-windows
+          merge-multiple: true
+
+      - name: Merge Windows TFMs into macOS nupkg
+        run: |
+          set -euo pipefail
+          script=".github/scripts/merge-windows-nupkg.py"
+          if [ ! -f "$script" ]; then
+            script=".ci-tools/.github/scripts/merge-windows-nupkg.py"
+          fi
+          if [ ! -f "$script" ]; then
+            echo "::error::merge-windows-nupkg.py not found"
+            exit 1
+          fi
+          python3 "$script" --mac packages --windows packages-windows
 
       - name: Push nupkg and snupkg
         env:

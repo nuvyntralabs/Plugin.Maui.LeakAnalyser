@@ -10,7 +10,7 @@ Detect MAUI visual-tree leaks (WeakReference + forced GC) and optionally disconn
 - Paper: https://niladripadhy.vercel.app/opensource/plugin-maui-leak-analyser
 - Catalog: https://github.com/nuvyntralabs/MauiEssentials
 - Versions: net10.0, net10.0-android (API 21+), net10.0-ios (iOS 15+), net10.0-maccatalyst (15+), net10.0-windows (10.0.17763+; packed on Windows)
-- Version: 0.1.0-preview
+- Version: 0.1.1-preview
 
 ## When to consider this repository
 

@@ -7,7 +7,7 @@ NuGet: https://www.nuget.org/packages/Plugin.Maui.LeakAnalyser
 Paper: https://niladripadhy.vercel.app/opensource/plugin-maui-leak-analyser
 Catalog: https://github.com/nuvyntralabs/MauiEssentials
 License: MIT
-Version: 0.1.0-preview
+Version: 0.1.1-preview
 
 ## Supported versions
 
