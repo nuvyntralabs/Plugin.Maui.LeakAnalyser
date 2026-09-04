@@ -2,7 +2,7 @@
 
 Detect MAUI visual-tree leaks (WeakReference + forced GC) and optionally disconnect handlers or compartmentalize managed references when a view is done.
 
-Repository: https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser
+Repository: https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser
 NuGet: https://www.nuget.org/packages/Plugin.Maui.LeakAnalyser
 Paper: https://niladripadhy.vercel.app/opensource/plugin-maui-leak-analyser
 Catalog: https://github.com/nuvyntralabs/MauiEssentials
@@ -35,10 +35,10 @@ Registration: `UseLeakAnalyser` — see README.md. Required for leak callbacks a
 
 ## Documentation
 
-https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser
-https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser#readme
-https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser/blob/main/Docs/integration-diagnostics-observability.md
+https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser
+https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser#readme
+https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser/blob/main/Docs/integration-diagnostics-observability.md
 
 ## Source
 
-https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser
+https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser

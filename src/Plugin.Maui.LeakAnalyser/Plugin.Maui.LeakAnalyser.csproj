@@ -29,7 +29,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://nuvyntralabs.github.io/packages/plugin-maui-leak-analyser/</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser</RepositoryUrl>
+    <RepositoryUrl>https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Version>0.1.0-preview</Version>
     <PackageReleaseNotes>Preview: MAUI visual-tree leak detection, handler disconnect, and opt-in compartmentalize teardown.</PackageReleaseNotes>
