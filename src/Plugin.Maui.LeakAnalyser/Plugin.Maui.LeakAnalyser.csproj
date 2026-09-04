@@ -31,8 +31,8 @@
     <PackageProjectUrl>https://nuvyntralabs.github.io/packages/plugin-maui-leak-analyser/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>0.1.1-preview</Version>
-    <PackageReleaseNotes>Preview: include net10.0-windows in the nupkg so NuGet lists Windows as a packed TFM.</PackageReleaseNotes>
+    <Version>1.0.0</Version>
+    <PackageReleaseNotes>First stable release. Visual-tree leak detection and handler teardown for Android, iOS, Mac Catalyst, and Windows.</PackageReleaseNotes>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

@@ -15,12 +15,12 @@ Unloaded → “done with this view?” → Monitor (Debug) and/or TearDown
 Package: [https://www.nuget.org/packages/Plugin.Maui.LeakAnalyser](https://www.nuget.org/packages/Plugin.Maui.LeakAnalyser)
 
 ```bash
-dotnet add package Plugin.Maui.LeakAnalyser --prerelease
+dotnet add package Plugin.Maui.LeakAnalyser
 ```
 
 Target frameworks: `net10.0`, `net10.0-android`, `net10.0-ios`, `net10.0-maccatalyst`, `net10.0-windows10.0.19041.0` (Windows TFM when packed on Windows).
 
-Version `0.1.1-preview`.
+Version `1.0.0`.
 
 ## Quick start
 
