@@ -1,50 +1,15 @@
-# AdamE.MemoryToolkit.Maui — Complete Feature and Code Analysis
+# MAUI visual-tree leak toolkit — complete analysis
 
-**Analyzed:** 2026-09-04  
-**Primary sources:** GitHub `main` (commit tree `58f343a`), README, NuGet 2.0.0, release notes, issues, discussions, unit tests, e2e tests, sample app  
-**Wiki:** none (API 404)  
+**Analyzed:** 2026-09-04
+**Primary sources:** GitHub `main` (commit tree `58f343a`), README, NuGet 2.0.0, release notes, issues, discussions, unit tests, e2e tests, sample app
+**Wiki:** none (API 404)
 **Extra docs on `main`:** none. PR #35 notes that an audit track (`docs/`, `tools/maui-leak-catalog/`, `tests/MemoryToolkit.Maui.LeakLab/`) was intentionally kept out of the V2 merge.
 
 This file is a reference inventory. It lists what the package claims, what the code actually does, and what it does not do — so you can implement your own leak tooling without guessing.
 
 ---
 
-## 1. Package identity
-
-| Item | Value |
-|---|---|
-| NuGet | [AdamE.MemoryToolkit.Maui](https://www.nuget.org/packages/AdamE.MemoryToolkit.Maui) |
-| Latest | **2.0.0** (2026-04-13) — ~13.4k downloads |
-| Previous | **1.0.0** (2024-04-17) — ~233k downloads |
-| GitHub | [AdamEssenmacher/MemoryToolkit.Maui](https://github.com/AdamEssenmacher/MemoryToolkit.Maui) |
-| Stars / forks / watchers | 352 / 17 / 18 |
-| License | MIT |
-| Author | Adam Essenmacher ([sponsors](https://github.com/sponsors/AdamEssenmacher)) |
-| Language | C# |
-| Repo created | 2024-01-20 |
-| Last push (as of analysis) | 2026-07-03 |
-| Assembly / XAML xmlns | `MemoryToolkit.Maui` / `clr-namespace:MemoryToolkit.Maui;assembly=MemoryToolkit.Maui` |
-| Typical prefix | `mtk:` |
-
-### Target frameworks (V2)
-
-Library (`MemoryToolkit.Maui.csproj`):
-
-- `net10.0`
-- `net10.0-ios`
-- `net10.0-maccatalyst`
-
-NuGet reports those as `net10.0`, `net10.0-ios26.0`, `net10.0-maccatalyst26.0`.
-
-Dependency: `Microsoft.Maui.Controls >= 10.0.0`.
-
-There is **no Android or Windows TFM** on the library. Android / Windows apps consume the shared `net10.0` build. Sample app additionally targets Android, iOS, Mac Catalyst, and Windows.
-
-XML docs are generated and packed (`GenerateDocumentationFile=true`). CS1591 (missing XML comments) is suppressed.
-
----
-
-## 2. What the README says it does (3 primary features)
+## 1. What the README says it does (3 primary features)
 
 V2 is described as a **.NET 10 rebaseline**. MAUI 9/10 added automatic handler disconnection and `DisconnectHandlers()`, so V2 defaults to a **less destructive** path.
 
@@ -56,7 +21,7 @@ That is the whole product. There is no profiler, no heap dump, no native-memory 
 
 ---
 
-## 3. Complete feature list (document + code)
+## 2. Complete feature list (document + code)
 
 ### 3.1 Runtime leak detection
 
@@ -193,7 +158,7 @@ Implementation detail: `UseMemoryToolkit` builds a temporary `IServiceProvider` 
 
 ---
 
-## 4. Repository layout
+## 3. Repository layout
 
 ```
 MemoryToolkit.Maui/
@@ -225,7 +190,7 @@ Library surface is **10 C# files**. Internals are visible to the unit test proje
 
 ---
 
-## 5. Public API surface
+## 4. Public API surface
 
 ### Types
 
@@ -286,7 +251,7 @@ These two ints are **not** exposed on `MemoryToolkitOptions`. To change them you
 
 ---
 
-## 6. Code-level architecture
+## 5. Code-level architecture
 
 ```
 XAML Cascade=True
@@ -320,7 +285,7 @@ Tracked state uses **weak references** (`WeakReference<VisualElement>`, `WeakRef
 
 ---
 
-## 7. Component-by-component analysis
+## 6. Component-by-component analysis
 
 ### 7.1 `LeakMonitorBehavior`
 
@@ -452,7 +417,7 @@ Remaining honesty from README: this is best-effort inference, not a navigation f
 
 ---
 
-## 8. “Done with” vs MAUI 9/10 reality
+## 7. “Done with” vs MAUI 9/10 reality
 
 README problem statement (still accurate):
 
@@ -463,7 +428,7 @@ V2 default (`DisconnectHandlers`) is **low-destruction**: ask MAUI to drop handl
 
 ---
 
-## 9. How to use it (from docs + sample)
+## 8. How to use it (from docs + sample)
 
 ### Debug: detect only
 
@@ -531,7 +496,7 @@ Or skip inference and call `page.Monitor()` / `page.TearDown(strategy)` yourself
 
 ---
 
-## 10. V1 vs V2 (from README, PR #35, release notes)
+## 9. V1 vs V2 (from README, PR #35, release notes)
 
 | | V1 (1.0.0, .NET 8 era) | V2 (2.0.0, .NET 10) |
 |---|---|---|
@@ -551,7 +516,7 @@ V2 **does not** bring back V1 dispose-on-teardown. That is a deliberate product 
 
 ---
 
-## 11. Issues and discussions (feature-relevant)
+## 10. Issues and discussions (feature-relevant)
 
 Open issues on `main` at analysis time: **0**.
 
@@ -591,7 +556,7 @@ Used-by signal (NuGet): UraniumUI, Plugin.Maui.Calendar, Cyber.FrameworkNet8.
 
 ---
 
-## 12. Limitations (honest list)
+## 11. Limitations (honest list)
 
 1. **No root-cause diagnosis.** Alive vs dead only.
 2. **Forced GC** makes detection Debug-only.
@@ -609,7 +574,7 @@ Used-by signal (NuGet): UraniumUI, Plugin.Maui.Calendar, Cyber.FrameworkNet8.
 
 ---
 
-## 13. Feature checklist (for your own implementation)
+## 12. Feature checklist (for your own implementation)
 
 If you reimplement this “your own way,” this is the actual feature set to accept, drop, or extend:
 
@@ -660,7 +625,7 @@ If you reimplement this “your own way,” this is the actual feature set to ac
 
 ---
 
-## 14. Source file map
+## 13. Source file map
 
 | File | Role |
 |---|---|
@@ -677,25 +642,25 @@ If you reimplement this “your own way,” this is the actual feature set to ac
 
 ---
 
-## 15. Linked documents reviewed
+## 14. Linked documents reviewed
 
-| Document | URL | What it added |
-|---|---|---|
-| README | https://github.com/AdamEssenmacher/MemoryToolkit.Maui/blob/main/README.md | Product story, API usage, “done with”, sample walkthrough |
-| NuGet page | https://www.nuget.org/packages/AdamE.MemoryToolkit.Maui | TFMs, versions, dependents, same README |
-| V2 release | https://github.com/AdamEssenmacher/MemoryToolkit.Maui/releases/tag/v2.0.0 | .NET 10 scope, strategy list, issue list, validation |
-| V1 release | https://github.com/AdamEssenmacher/MemoryToolkit.Maui/releases/tag/v1.0.0 | “Initial release” only |
-| PR #35 | https://github.com/AdamEssenmacher/MemoryToolkit.Maui/pull/35 | Full V2 design notes; audit docs excluded |
-| Issues 3–35 | GitHub issues API | Gaps, crashes, Shell/modal, what V2 fixed vs skipped |
-| Discussions 1–32 | GitHub discussions API | Hybrid, Release settings, popups, third-party tabs |
-| Smoke README | `tests/smoke/README.md` | Local Mac Catalyst only, not CI |
-| Third-party article | https://mobiletechlead.com/article/find-fix-memory-leaks-dotnet-maui-detection-prevention-tooling | Repeats V1-ish teardown story; treat as secondary. Prefer repo README + this code pass. |
+| Document | What it added |
+|---|---|
+| README | Product story, API usage, “done with”, sample walkthrough |
+| NuGet page | TFMs, versions, dependents, same README |
+| V2 release | .NET 10 scope, strategy list, issue list, validation |
+| V1 release | “Initial release” only |
+| PR #35 | Full V2 design notes; audit docs excluded |
+| Issues 3–35 | Gaps, crashes, Shell/modal, what V2 fixed vs skipped |
+| Discussions 1–32 | Hybrid, Release settings, popups, third-party tabs |
+| Smoke README | Local Mac Catalyst only, not CI (`tests/smoke/README.md`) |
+| Third-party article | Repeats V1-ish teardown story; treat as secondary. Prefer repo README + this code pass. |
 
 No wiki. No extra markdown under `docs/` on current `main`.
 
 ---
 
-## 16. Adjacent tools (not substitutes)
+## 15. Adjacent tools (not substitutes)
 
 This package is a **MAUI visual-tree leak detector + teardown helper**. Nothing in the usual MAUI plugin catalogs replaces that exact job.
 
@@ -710,7 +675,7 @@ Use those beside a leak toolkit, not instead of one.
 
 ---
 
-## 17. Bottom line
+## 16. Bottom line
 
 MemoryToolkit.Maui V2 is a small, focused library:
 

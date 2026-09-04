@@ -1,9 +1,9 @@
-# AdamE.MemoryToolkit.Maui V2 — New Features and Improvements
+# Visual-tree leak toolkit V2 — new features
 
-**Compared to:** V1.0.0 (April 2024, .NET 8 era)  
-**Shipped as:** V2.0.0 (13 April 2026, .NET 10 / MAUI 10)  
-**Source:** [v2.0.0 release](https://github.com/AdamEssenmacher/MemoryToolkit.Maui/releases/tag/v2.0.0), [PR #35](https://github.com/AdamEssenmacher/MemoryToolkit.Maui/pull/35), README, and library code  
-**Companion:** [AdamE.MemoryToolkit.Maui-Complete-Analysis.md](./AdamE.MemoryToolkit.Maui-Complete-Analysis.md)
+**Compared to:** V1.0.0 (April 2024, .NET 8 era)
+**Shipped as:** V2.0.0 (13 April 2026, .NET 10 / MAUI 10)
+**Source:** v2.0.0 release, PR #35, README, and library code
+**Companion:** [complete-analysis.md](./complete-analysis.md)
 
 V2 is not a small bump. It retargets the library, changes the default teardown philosophy, and adds a strategy API. Detection still exists; aggressive graph-smashing is now **opt-in**.
 
