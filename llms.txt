@@ -37,7 +37,7 @@ Registration: `UseLeakAnalyser` — see README.md. Required for leak callbacks a
 
 https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser
 https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser#readme
-https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser/blob/main/Docs/integration-diagnostics-observability.md
+https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser/blob/main/docs/integration-diagnostics-observability.md
 
 ## Source
 
