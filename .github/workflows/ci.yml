@@ -1,0 +1,175 @@
+# Copy to a plugin repository as .github/workflows/ci.yml
+# together with .github/workflows/plugin-ci.yml and .github/scripts/.
+# so Plugin.Maui.* repos build and publish without cloning the hub.
+# Publish is per package repo (one repo may ship several nupkgs, e.g. MVVMExpress).
+# Order: validate NUGET_KEY, fail if csproj version is already on NuGet.org,
+# run unit tests, pack nupkg/snupkg, push to NuGet.org.
+# Linux installs maui-android (the `maui` meta-workload is not supported there).
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Unused. CI publishes after key, version, test, and pack checks succeed
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  version-check:
+    name: NuGet release
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout package repo
+        uses: actions/checkout@v4
+
+      - name: Fetch hub CI scripts
+        uses: actions/checkout@v4
+        with:
+          repository: nuvyntralabs/MauiEssentials
+          ref: main
+          path: .ci-tools
+
+      - name: Check NUGET_KEY and published version
+        id: check
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_KEY }}
+        run: |
+          set -euo pipefail
+          script=".github/scripts/check-nuget-release.py"
+          if [ ! -f "$script" ]; then
+            script=".ci-tools/.github/scripts/check-nuget-release.py"
+          fi
+          if [ ! -f "$script" ]; then
+            echo "::error::check-nuget-release.py not found after hub checkout"
+            find .ci-tools -type f | sort | head -100
+            exit 1
+          fi
+          python3 "$script" --plugin-root .
+
+  test:
+    name: Unit tests
+    needs: [version-check]
+    uses: ./.github/workflows/plugin-ci.yml
+    with:
+      runner: ubuntu-latest
+      frameworks: net10.0
+      pack: false
+      test: true
+      job_name: Unit tests
+
+  linux:
+    needs: [test]
+    uses: ./.github/workflows/plugin-ci.yml
+    with:
+      runner: ubuntu-latest
+      frameworks: net10.0
+      pack: true
+      test: false
+
+  macos:
+    needs: [test]
+    uses: ./.github/workflows/plugin-ci.yml
+    with:
+      runner: macos-latest
+      frameworks: net10.0,net10.0-android,net10.0-ios,net10.0-maccatalyst
+      pack: true
+      test: false
+      install_workloads: true
+      workloads: maui-android maui-ios maui-maccatalyst
+
+  # Shared libraries and MVVMExpress also pack net10.0-windows on this runner.
+  # Native Android/iOS plugins still succeed: unmatched Windows TFMs are skipped.
+  windows:
+    needs: [test]
+    uses: ./.github/workflows/plugin-ci.yml
+    with:
+      runner: windows-latest
+      frameworks: net10.0,net10.0-windows
+      pack: true
+      test: false
+      install_workloads: true
+      workloads: maui-windows
+
+  publish:
+    name: NuGet.org
+    needs: [linux, macos, windows]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Download macOS packages
+        uses: actions/download-artifact@v4
+        with:
+          pattern: nuget-*-macOS
+          path: packages
+          merge-multiple: true
+
+      - name: Push nupkg and snupkg
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -z "${NUGET_KEY}" ]; then
+            echo "::error::NUGET_KEY secret is empty. Add it under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          if [ ! -d packages ]; then
+            echo "::error::No macOS NuGet artifacts were downloaded."
+            exit 1
+          fi
+          mapfile -t nupkgs < <(find packages -type f -name '*.nupkg' ! -name '*.snupkg' | sort)
+          mapfile -t snupkgs < <(find packages -type f -name '*.snupkg' | sort)
+          if [ ${#nupkgs[@]} -eq 0 ]; then
+            echo "::error::No .nupkg files found in macOS artifacts."
+            find packages -type f | sort
+            exit 1
+          fi
+          if [ ${#snupkgs[@]} -eq 0 ]; then
+            echo "::error::No .snupkg files found in macOS artifacts."
+            find packages -type f | sort
+            exit 1
+          fi
+          echo "Packages to push:"
+          find packages -type f \( -name '*.nupkg' -o -name '*.snupkg' \) | sort | sed 's/^/  /'
+          for pkg in "${nupkgs[@]}"; do
+            dir="$(dirname "$pkg")"
+            base="$(basename "$pkg" .nupkg)"
+            symbol="${dir}/${base}.snupkg"
+            if [ ! -f "$symbol" ]; then
+              echo "::error::Missing symbol package for ${pkg}: ${symbol}"
+              exit 1
+            fi
+            echo "Pushing ${pkg}"
+            dotnet nuget push "$pkg" \
+              --api-key "$NUGET_KEY" \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+            echo "Pushing ${symbol}"
+            dotnet nuget push "$symbol" \
+              --api-key "$NUGET_KEY" \
+              --source https://api.nuget.org/v3/index.json \
+              --skip-duplicate
+          done

@@ -1,0 +1,44 @@
+# Plugin.Maui.LeakAnalyser
+
+Detect MAUI visual-tree leaks (WeakReference + forced GC) and optionally disconnect handlers or compartmentalize managed references when a view is done.
+
+Repository: https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser
+NuGet: https://www.nuget.org/packages/Plugin.Maui.LeakAnalyser
+Paper: https://niladripadhy.vercel.app/opensource/plugin-maui-leak-analyser
+Catalog: https://github.com/nuvyntralabs/MauiEssentials
+License: MIT
+Version: 0.1.0-preview
+
+## Supported versions
+
+net10.0, net10.0-android (API 21+), net10.0-ios (iOS 15+), net10.0-maccatalyst (15+), net10.0-windows (10.0.17763+; packed on Windows)
+
+Platforms: Android, iOS, Mac Catalyst, and Windows. The Windows TFM is included when the package is packed on Windows.
+
+## Installation
+
+dotnet add package Plugin.Maui.LeakAnalyser --prerelease
+
+Registration: `UseLeakAnalyser` — see README.md. Required for leak callbacks and global teardown defaults.
+
+## Use this project when a developer is looking for
+
+- How do I detect MAUI page / view leaks after navigation?
+- Why is BindingContext still alive after pop?
+- Disconnect handlers when a view is finished without a profiler
+
+## Do not use when
+
+- The team needs retain-path diagnosis — use a memory profiler
+- They only need crash / ANR breadcrumbs — use Plugin.Maui.Diagnostics
+- They only need timings — use Plugin.Maui.Performance
+
+## Documentation
+
+https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser
+https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser#readme
+https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser/blob/main/Docs/integration-diagnostics-observability.md
+
+## Source
+
+https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser

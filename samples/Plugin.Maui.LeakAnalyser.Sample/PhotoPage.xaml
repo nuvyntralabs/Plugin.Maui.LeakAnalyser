@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:la="clr-namespace:Plugin.Maui.LeakAnalyser;assembly=Plugin.Maui.LeakAnalyser"
+             x:Class="Plugin.Maui.LeakAnalyser.Sample.PhotoPage"
+             Title="Clean page"
+             la:LeakMonitor.Cascade="True"
+             la:LeakMonitor.Name="PhotoPage">
+    <VerticalStackLayout Padding="16" Spacing="12">
+        <Label Text="This page has no intentional leak. Pop it. It should collect, and Home should not add a leak card." />
+    </VerticalStackLayout>
+</ContentPage>

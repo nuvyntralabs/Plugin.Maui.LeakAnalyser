@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:la="clr-namespace:Plugin.Maui.LeakAnalyser;assembly=Plugin.Maui.LeakAnalyser"
+             x:Class="Plugin.Maui.LeakAnalyser.Sample.HomePage"
+             Title="LeakAnalyser"
+             la:LeakMonitor.Cascade="True"
+             la:LeakMonitor.Name="HomePage">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+            <Label x:Name="HeapLabel" FontAttributes="Bold" />
+            <Label x:Name="LeakLabel" />
+            <Label Text="Detection is on. Teardown Cascade is off so you can see a leaked control survive. After you pop a page, each leak card lists everything still readable from the surviving object." />
+            <Button Text="Open clean page" Clicked="OnOpenClean" />
+            <Button Text="Open leaked page" Clicked="OnOpenLeaky" />
+
+            <Label Text="Leak details" FontAttributes="Bold" FontSize="18" Margin="0,8,0,0" />
+            <Label x:Name="EmptyLeaksLabel"
+                   Text="No leaks yet. Open the leaked page, go back, and wait for forced GC." />
+            <VerticalStackLayout x:Name="LeakList" Spacing="10" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,52 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
+    <IsAotCompatible>true</IsAotCompatible>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CA1416</NoWarn>
+
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+
+    <RootNamespace>Plugin.Maui.LeakAnalyser</RootNamespace>
+    <AssemblyName>Plugin.Maui.LeakAnalyser</AssemblyName>
+    <PackageId>Plugin.Maui.LeakAnalyser</PackageId>
+    <Title>.NET MAUI LeakAnalyser — visual-tree leak detection and teardown</Title>
+    <Description>Detect MAUI visual-tree leaks in Debug and optionally disconnect handlers or compartmentalize managed references when a view is done. Android, iOS, Mac Catalyst, and Windows.</Description>
+    <PackageTags>dotnet-maui;maui;maui-plugin;maui-utilities;cross-platform;android;ios;maccatalyst;windows;nuget;mauiessentials;memory;leak;leak-detection;gc;teardown;handler</PackageTags>
+    <Authors>Niladri</Authors>
+    <Company>MauiEssentials</Company>
+    <Copyright>Copyright © 2026 Niladri</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://nuvyntralabs.github.io/packages/plugin-maui-leak-analyser/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NiladriPadhy/Plugin.Maui.LeakAnalyser</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Version>0.1.0-preview</Version>
+    <PackageReleaseNotes>Preview: MAUI visual-tree leak detection, handler disconnect, and opt-in compartmentalize teardown.</PackageReleaseNotes>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Plugin.Maui.LeakAnalyser.Tests" />
+  </ItemGroup>
+
+</Project>

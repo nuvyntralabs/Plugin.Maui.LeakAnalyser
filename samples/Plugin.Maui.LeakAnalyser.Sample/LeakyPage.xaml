@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:la="clr-namespace:Plugin.Maui.LeakAnalyser;assembly=Plugin.Maui.LeakAnalyser"
+             x:Class="Plugin.Maui.LeakAnalyser.Sample.LeakyPage"
+             Title="Leaky page"
+             la:LeakMonitor.Cascade="True"
+             la:LeakMonitor.Name="LeakyPage">
+    <VerticalStackLayout Padding="16" Spacing="12">
+        <Label Text="This page roots itself on Application.PropertyChanged. Pop it and wait for forced GC. Home will list the screen, the method, and the objects that survived — including the Label below." />
+        <Label x:Name="StatusLabel"
+               Text="I leak on purpose"
+               la:LeakMonitor.Name="Label" />
+    </VerticalStackLayout>
+</ContentPage>
