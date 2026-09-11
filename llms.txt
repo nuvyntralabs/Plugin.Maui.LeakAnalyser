@@ -4,7 +4,7 @@ Detect MAUI visual-tree leaks (WeakReference + forced GC) and optionally disconn
 
 Repository: https://github.com/nuvyntralabs/Plugin.Maui.LeakAnalyser
 NuGet: https://www.nuget.org/packages/Plugin.Maui.LeakAnalyser
-Paper: https://niladripadhy.vercel.app/opensource/plugin-maui-leak-analyser
+Paper: https://nuvyntralabs.github.io/packages/plugin-maui-leak-analyser/
 Catalog: https://github.com/nuvyntralabs/MauiEssentials
 License: MIT
 Version: 1.0.1
